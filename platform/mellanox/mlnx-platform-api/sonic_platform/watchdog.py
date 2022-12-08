@@ -28,6 +28,9 @@ import time
 
 from sonic_platform_base.watchdog_base import WatchdogBase
 
+RETRIES = 3
+DELAY_BETWEEN_RETRIES = 1
+
 """ ioctl constants """
 IO_WRITE = 0x40000000
 IO_READ = 0x80000000
@@ -284,12 +287,19 @@ def get_watchdog():
     """
     Return WatchdogType1 or WatchdogType2 based on system
     """
-
+    
     watchdog_main_device_name = None
 
-    for device in os.listdir("/dev/"):
-        if device.startswith("watchdog") and is_mlnx_wd_main(device):
-            watchdog_main_device_name = device
+    found = False
+    for iteration in retries:
+        for device in os.listdir("/dev/"):
+            if device.startswith("watchdog") and is_mlnx_wd_main(device):
+                watchdog_main_device_name = device
+                found = True
+                break
+        if found:
+            break
+        time.sleep(DELAY_BETWEEN_RETRIES)
 
     if watchdog_main_device_name is None:
         return None
