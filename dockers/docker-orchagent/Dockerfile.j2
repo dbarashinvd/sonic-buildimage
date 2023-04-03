@@ -57,7 +57,8 @@ RUN apt-get remove -y gcc
 {% endif %}
 
 # Clean up
-RUN apt-get purge -y          \
+RUN apt --fix-broken install -y && \
+    apt-get purge -y          \
         build-essential       \
         python3-dev        && \
     apt-get clean -y       && \

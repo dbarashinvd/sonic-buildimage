@@ -56,7 +56,8 @@ RUN apt-get purge -y python-pip
 {% endif %}
 
 ## Clean up
-RUN apt-get clean -y && \
+RUN apt --fix-broken install -y && \
+    apt-get clean -y && \
     apt-get autoclean -y && \
     apt-get autoremove -y && \
     rm -rf /debs
