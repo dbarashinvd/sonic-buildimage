@@ -12,7 +12,7 @@
 	branch = 202211
 [submodule "sonic-swss"]
 	path = src/sonic-swss
-	url = https://github.com/sonic-net/sonic-swss
+	url = https://github.com/keboliu/sonic-swss
 	branch = 202211
 [submodule "src/p4c-bm/p4c-bm"]
 	path = platform/p4/p4c-bm/p4c-bm
@@ -41,7 +41,7 @@
 	url = https://github.com/aristanetworks/sonic
 [submodule "src/sonic-platform-common"]
 	path = src/sonic-platform-common
-	url = https://github.com/sonic-net/sonic-platform-common
+	url = https://github.com/keboliu/sonic-platform-common
 	branch = 202211
 [submodule "src/sonic-platform-daemons"]
 	path = src/sonic-platform-daemons
