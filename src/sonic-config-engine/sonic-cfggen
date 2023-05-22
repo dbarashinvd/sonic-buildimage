@@ -35,14 +35,6 @@ from sonic_py_common.multi_asic import get_asic_id_from_name, get_asic_device_id
 from sonic_py_common import device_info
 from swsscommon.swsscommon import ConfigDBConnector, SonicDBConfig, ConfigDBPipeConnector
 
-try:
-    from sonic_py_common.logger import Logger
-except ImportError as e:
-    raise ImportError (str(e) + "- required module not found")
-
-# Global logger class instance
-logger = Logger()
-
 
 PY3x = sys.version_info >= (3, 0)
 
@@ -148,10 +140,8 @@ def ip_network(value):
 def load_namespace_config(asic_name):
     if not SonicDBConfig.isInit():
         if is_multi_asic():
-            logger.log_notice("calling load_sonic_global_db_config, is_multi_asic: {}".format(is_multi_asic()))
             SonicDBConfig.load_sonic_global_db_config(namespace=asic_name)
         else:
-            logger.log_notice("calling load_sonic_db_config, is_multi_asic: {}".format(is_multi_asic()))
             SonicDBConfig.load_sonic_db_config()
 
 class FormatConverter:
