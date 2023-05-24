@@ -8,6 +8,14 @@ from swsscommon import swsscommon
 from .device_info import get_asic_conf_file_path
 from .device_info import is_supervisor, is_chassis
 
+try:
+    from sonic_py_common.logger import Logger
+except ImportError as e:
+    raise ImportError (str(e) + "- required module not found")
+
+# Global logger class instance
+logger = Logger()
+
 ASIC_NAME_PREFIX = 'asic'
 NAMESPACE_PATH_GLOB = '/run/netns/*'
 ASIC_CONF_FILENAME = 'asic.conf'
@@ -89,8 +97,10 @@ def get_num_asics():
     asic_conf_file_path = get_asic_conf_file_path()
 
     if asic_conf_file_path is None:
+        logger.log_notice("asic_conf_file_path is None, returning 1")
         return 1
 
+    logger.log_notice("asic_conf_file_path: {}".format(asic_conf_file_path))
     with open(asic_conf_file_path) as asic_conf_file:
         for line in asic_conf_file:
             tokens = line.split('=')
@@ -98,6 +108,7 @@ def get_num_asics():
                 continue
             if tokens[0].lower() == 'num_asic':
                 num_asics = tokens[1].strip()
+        logger.log_notice("returning num asic: {}".format(num_asics))
         return int(num_asics)
 
 
@@ -110,6 +121,7 @@ def is_multi_asic():
     """
     num_asics = get_num_asics()
 
+    logger.log_notice("is_multi_asic returning: {}".format(num_asics > 1))
     return (num_asics > 1)
 
 
